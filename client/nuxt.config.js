@@ -1,0 +1,115 @@
+export default {
+  // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
+  ssr: false,
+
+  // Global page headers: https://go.nuxtjs.dev/config-head
+  head: {
+    title: 'binh-todo',
+    htmlAttrs: {
+      lang: 'en',
+    },
+    meta: [
+      { charset: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { hid: 'description', name: 'description', content: '' },
+      { name: 'format-detection', content: 'telephone=no' },
+    ],
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+  },
+
+  // Global CSS: https://go.nuxtjs.dev/config-css
+  css: ['~assets/css/main.css'],
+
+  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
+  plugins: [],
+
+  // Auto import components: https://go.nuxtjs.dev/config-components
+  components: true,
+
+  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
+  buildModules: [
+    // https://go.nuxtjs.dev/eslint
+    '@nuxtjs/eslint-module',
+    '@nuxtjs/style-resources',
+  ],
+
+  styleResources: {
+    scss: [
+      '~assets/scss/mixins.scss',
+      '~assets/scss/variables.scss',
+      'primeflex/primeflex.scss',
+    ],
+  },
+
+  // Modules: https://go.nuxtjs.dev/config-modules
+  modules: [
+    // https://go.nuxtjs.dev/axios
+    '@nuxtjs/axios',
+    '@nuxtjs/auth-next',
+    'primevue/nuxt',
+  ],
+
+  // Axios module configuration: https://go.nuxtjs.dev/config-axios
+  axios: {
+    baseURL: 'http://localhost:8000/',
+    retry: false,
+  },
+
+  auth: {
+    watchLoggedIn: true,
+    rewriteRedirects: true,
+    strategies: {
+      local: {
+        token: {
+          property: 'accessToken',
+          global: true,
+          type: 'bearer',
+        },
+        user: {
+          property: false,
+        },
+        endpoint: {
+          login: { url: 'login', method: 'post' },
+          register: { url: 'register', method: 'post' },
+          logout: { url: 'logout', method: 'post' },
+          user: { url: 'user', method: 'get' },
+        },
+      },
+    },
+    redirect: {
+      login: '/login',
+      register: '/login',
+      logout: '/login',
+      home: '/',
+    },
+  },
+
+  primevue: {
+    theme: 'lara-light-teal',
+    ripple: true,
+    components: [
+      'Button',
+      'Card',
+      'Checkbox',
+      'DataTable',
+      'Dialog',
+      'Divider',
+      'InputText',
+      'Knob',
+      'Message',
+      'Password',
+      'ScrollTop',
+      'SplitButton',
+      'ScrollPanel',
+      'Toolbar',
+    ],
+    directives: ['Tooltip', 'Badge'],
+  },
+
+  router: {
+    middleware: ['auth'],
+  },
+
+  // Build Configuration: https://go.nuxtjs.dev/config-build
+  build: {},
+}
